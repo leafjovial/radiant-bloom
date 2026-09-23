@@ -33,7 +33,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   ref,
 ) {
   const Component = asChild ? Slot : "button";
-  return <Component ref={ref} className={cn(buttonVariants({ variant, size }), className)} {...props} />;
+  return (
+    <Component ref={ref} className={cn(buttonVariants({ variant, size }), className)} {...props} />
+  );
 });
 
 export { Button, buttonVariants };
