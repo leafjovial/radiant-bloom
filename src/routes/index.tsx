@@ -24,13 +24,29 @@ const fields = [
   { id: "address", label: "Obligee address", value: "", status: "missing" },
 ];
 
+type FieldValues = {
+  project: string;
+  contractor: string;
+  obligee: string;
+  amount: string;
+  date: string;
+  address: string;
+};
+
 function Index() {
   const [selected, setSelected] = useState("obligee");
-  const [values, setValues] = useState(Object.fromEntries(fields.map((field) => [field.id, field.value])));
+  const [values, setValues] = useState<FieldValues>({
+    project: fields[0]?.value ?? "",
+    contractor: fields[1]?.value ?? "",
+    obligee: fields[2]?.value ?? "",
+    amount: fields[3]?.value ?? "",
+    date: fields[4]?.value ?? "",
+    address: fields[5]?.value ?? "",
+  });
   const [page, setPage] = useState(1);
   const [generated, setGenerated] = useState(false);
 
-  const updateField = (id: string, value: string) => setValues((current) => ({ ...current, [id]: value }));
+  const updateField = (id: keyof FieldValues, value: string) => setValues((current) => ({ ...current, [id]: value }));
 
   return (
     <main className="min-h-screen bg-background">
@@ -77,11 +93,12 @@ function Index() {
           </div>
           <div className="space-y-3 p-5 lg:p-6">
             {fields.map((field) => {
-              const currentMissing = field.id === "address" && !values.address;
+              const fieldId = field.id as keyof FieldValues;
+              const currentMissing = fieldId === "address" && !values.address;
               const status = currentMissing ? "missing" : field.status === "review" ? "review" : "verified";
               return <label key={field.id} className={`block cursor-pointer rounded-md border p-3 transition-colors ${selected === field.id ? "border-navy bg-accent/35" : "border-border"}`} onClick={() => setSelected(field.id)}>
                 <span className="mb-2 flex items-center justify-between text-xs font-bold text-muted-foreground"><span>{field.label}</span><Status status={status}/></span>
-                <input value={values[field.id]} onChange={(event) => updateField(field.id, event.target.value)} placeholder={currentMissing ? "Enter required value" : undefined} className="h-9 w-full border-0 bg-transparent text-sm font-semibold text-foreground outline-none placeholder:text-primary" />
+                <input value={values[fieldId]} onChange={(event) => updateField(fieldId, event.target.value)} placeholder={currentMissing ? "Enter required value" : undefined} className="h-9 w-full border-0 bg-transparent text-sm font-semibold text-foreground outline-none placeholder:text-primary" />
               </label>;
             })}
             <div className="flex items-center justify-between border-t border-border pt-5"><div><p className="text-sm font-bold">Bond type</p><p className="text-xs text-muted-foreground">Detected from page 1</p></div><span className="rounded-md bg-accent px-3 py-2 text-xs font-bold text-accent-foreground"><Check size={14} className="mr-1 inline"/> Bid Bond</span></div>
