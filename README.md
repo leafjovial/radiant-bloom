@@ -1,14 +1,32 @@
-# Welcome to your Lovable project
+# Radiant Bloom
+
+#DB1A1A
+
+#FFF6F6
+
+#8CC7C4
+
+#2C687B
+
+rgb(219, 26, 26)
+
+rgb(255, 246, 246)
+
+rgb(140, 199, 196)
+
+rgb(44, 104, 123)
+
+based on this create web site mock and form and data
 
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/dee9338f-46e2-4432-91cf-afb2229e934c).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +38,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
