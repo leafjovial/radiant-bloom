@@ -47,11 +47,12 @@ export const Route = createFileRoute("/")({
 });
 
 const sampleRawText =
-  "Document package for Road Improvement Project - Phase II, project number CIP-24-118. Principal: ABC Construction LLC, 1250 Alameda Street, Los Angeles, CA 90012. Obligee: City of Montebello. Bid package: Street resurfacing, traffic signal upgrades, and sidewalk accessibility improvements. Bid amount: $250,000. Required bond percentage: 10%. Bid opening date: October 18, 2026 at 2:00 PM Pacific. Bond type: Bid Bond. Surety: Pacific Guarantee Surety Company. Jurisdiction: California. Bond validity: 90 days after bid opening. Authorized signer: Jordan Diaz. The obligee address and signer title are not included in the request package.";
+  "Document package for Road Improvement Project - Phase II, project number CIP-24-118. Principal: ABC Construction LLC, 1250 Alameda Street, Los Angeles, CA 90012. Obligee: City of Montebello. Bid package: Street resurfacing, traffic signal upgrades, and sidewalk accessibility improvements. Bid amount: $250,000. Required bond percentage: 10%. Bid opening date: October 18, 2026 at 2:00 PM Pacific. Bond type: Bid Bond. Surety: Pacific Guarantee Surety Company. Jurisdiction: California. Bond validity: 90 days after bid opening. Bid bond is required and surety confirmation is included. The package is not ready for countersignature. Authorized signer: Jordan Diaz. The obligee address and signer title are not included in the request package.";
 
 const fieldBlueprints = [
   {
     id: "project",
+    kind: "text",
     label: "Project name",
     value: "Road Improvement Project - Phase II",
     status: "verified",
@@ -61,6 +62,7 @@ const fieldBlueprints = [
   },
   {
     id: "projectNumber",
+    kind: "text",
     label: "Project number",
     value: "CIP-24-118",
     status: "verified",
@@ -70,6 +72,7 @@ const fieldBlueprints = [
   },
   {
     id: "contractor",
+    kind: "text",
     label: "Contractor / principal",
     value: "ABC Construction LLC",
     status: "verified",
@@ -79,6 +82,7 @@ const fieldBlueprints = [
   },
   {
     id: "contractorAddress",
+    kind: "text",
     label: "Contractor address",
     value: "1250 Alameda Street, Los Angeles, CA 90012",
     status: "verified",
@@ -88,6 +92,7 @@ const fieldBlueprints = [
   },
   {
     id: "obligee",
+    kind: "text",
     label: "Obligee",
     value: "City of Montebello",
     status: "review",
@@ -97,6 +102,7 @@ const fieldBlueprints = [
   },
   {
     id: "address",
+    kind: "text",
     label: "Obligee address",
     value: "",
     status: "missing",
@@ -106,6 +112,7 @@ const fieldBlueprints = [
   },
   {
     id: "bidPackage",
+    kind: "text",
     label: "Bid package / scope",
     value: "Street resurfacing, traffic signal upgrades, and sidewalk accessibility improvements",
     status: "review",
@@ -115,6 +122,7 @@ const fieldBlueprints = [
   },
   {
     id: "amount",
+    kind: "text",
     label: "Bid amount",
     value: "$250,000.00",
     status: "verified",
@@ -124,6 +132,7 @@ const fieldBlueprints = [
   },
   {
     id: "bidPercentage",
+    kind: "text",
     label: "Bond percentage",
     value: "10%",
     status: "verified",
@@ -133,6 +142,7 @@ const fieldBlueprints = [
   },
   {
     id: "date",
+    kind: "text",
     label: "Bid opening date",
     value: "October 18, 2026",
     status: "verified",
@@ -142,6 +152,7 @@ const fieldBlueprints = [
   },
   {
     id: "bidTime",
+    kind: "text",
     label: "Bid opening time",
     value: "2:00 PM Pacific",
     status: "verified",
@@ -151,6 +162,7 @@ const fieldBlueprints = [
   },
   {
     id: "surety",
+    kind: "text",
     label: "Surety company",
     value: "Pacific Guarantee Surety Company",
     status: "verified",
@@ -160,6 +172,7 @@ const fieldBlueprints = [
   },
   {
     id: "suretyAddress",
+    kind: "text",
     label: "Surety address",
     value: "",
     status: "missing",
@@ -169,6 +182,7 @@ const fieldBlueprints = [
   },
   {
     id: "bondType",
+    kind: "text",
     label: "Document type",
     value: "Bid Bond",
     status: "verified",
@@ -178,6 +192,7 @@ const fieldBlueprints = [
   },
   {
     id: "jurisdiction",
+    kind: "text",
     label: "Jurisdiction",
     value: "California",
     status: "verified",
@@ -187,6 +202,7 @@ const fieldBlueprints = [
   },
   {
     id: "validityPeriod",
+    kind: "text",
     label: "Validity period",
     value: "90 days after bid opening",
     status: "verified",
@@ -196,6 +212,7 @@ const fieldBlueprints = [
   },
   {
     id: "authorizedSigner",
+    kind: "text",
     label: "Authorized signer",
     value: "Jordan Diaz",
     status: "verified",
@@ -205,6 +222,7 @@ const fieldBlueprints = [
   },
   {
     id: "signerTitle",
+    kind: "text",
     label: "Signer title",
     value: "",
     status: "missing",
@@ -212,7 +230,40 @@ const fieldBlueprints = [
     source: "Not found",
     required: true,
   },
+  {
+    id: "bidBondRequired",
+    kind: "checkbox",
+    label: "Bid bond required",
+    value: true,
+    status: "verified",
+    confidence: "96%",
+    source: "Bond type requirement",
+    required: true,
+  },
+  {
+    id: "suretyConfirmed",
+    kind: "checkbox",
+    label: "Surety confirmed",
+    value: true,
+    status: "verified",
+    confidence: "91%",
+    source: "Surety confirmation",
+    required: true,
+  },
+  {
+    id: "readyForCountersignature",
+    kind: "checkbox",
+    label: "Ready for countersignature",
+    value: false,
+    status: "review",
+    confidence: "72%",
+    source: "Countersignature readiness",
+    required: false,
+  },
 ] as const;
+
+const textFieldCount = fieldBlueprints.filter((field) => field.kind === "text").length;
+const checkboxFieldCount = fieldBlueprints.filter((field) => field.kind === "checkbox").length;
 
 const workflowSteps = [
   { id: "upload", label: "Upload Template" },
@@ -225,9 +276,17 @@ const workflowSteps = [
 
 const zoomLevels = [75, 100, 125, 150] as const;
 
-type FieldId = (typeof fieldBlueprints)[number]["id"];
-type FieldValues = Record<FieldId, string>;
+type FieldBlueprint = (typeof fieldBlueprints)[number];
+type FieldId = FieldBlueprint["id"];
+type FieldValue = string | boolean;
+type FieldValues = Record<FieldId, FieldValue>;
 type WorkflowStage = "landing" | "upload" | "raw" | "mapped" | "generated";
+
+const isMappedValue = (field: FieldBlueprint, value: FieldValue) => {
+  if (field.kind === "checkbox") return typeof value === "boolean";
+
+  return typeof value === "string" && value.trim().length > 0;
+};
 
 const fieldPageMap: Record<FieldId, number> = {
   project: 1,
@@ -248,6 +307,9 @@ const fieldPageMap: Record<FieldId, number> = {
   validityPeriod: 2,
   authorizedSigner: 3,
   signerTitle: 3,
+  bidBondRequired: 2,
+  suretyConfirmed: 2,
+  readyForCountersignature: 3,
 };
 
 function Index() {
@@ -273,11 +335,13 @@ function Index() {
   const canAnalyze = hasTemplate && hasRawText && !isAnalyzing;
   const allRequiredComplete = fieldBlueprints
     .filter((field) => field.required)
-    .every((field) => values[field.id].trim());
-  const mappedCount = fieldBlueprints.filter((field) => values[field.id].trim()).length;
+    .every((field) => isMappedValue(field, values[field.id]));
+  const mappedCount = fieldBlueprints.filter((field) =>
+    isMappedValue(field, values[field.id]),
+  ).length;
   const missingCount = fieldBlueprints.length - mappedCount;
   const reviewCount = fieldBlueprints.filter(
-    (field) => field.status === "review" && values[field.id].trim(),
+    (field) => field.status === "review" && isMappedValue(field, values[field.id]),
   ).length;
   const verifiedCount = Math.max(mappedCount - reviewCount, 0);
   const canGenerate = allRequiredComplete && workflowStage === "mapped";
@@ -294,7 +358,7 @@ function Index() {
     return 0;
   }, [allRequiredComplete, hasRawText, hasTemplate, workflowStage]);
 
-  const updateField = (id: FieldId, value: string) => {
+  const updateField = (id: FieldId, value: FieldValue) => {
     setValues((current) => ({ ...current, [id]: value }));
   };
 
@@ -865,7 +929,7 @@ function WorkspaceScreen({
   setPage: (value: number) => void;
   setSelected: (value: FieldId) => void;
   templateName: string;
-  updateField: (id: FieldId, value: string) => void;
+  updateField: (id: FieldId, value: FieldValue) => void;
   values: FieldValues;
   zoom: number;
   adjustZoom: (delta: number) => void;
@@ -924,7 +988,7 @@ function WorkspaceScreen({
             <div className="min-w-0">
               <span className="text-xs font-bold uppercase text-steel-blue">PDF template</span>
               <span className="ml-3 text-xs text-muted-foreground">
-                {fieldBlueprints.length} fields | 4 checkboxes
+                {textFieldCount} text fields | {checkboxFieldCount} checkboxes
               </span>
             </div>
             <div className="flex shrink-0 items-center rounded-full border border-border bg-white p-1 shadow-sm">
@@ -1025,12 +1089,15 @@ function WorkspaceScreen({
           <div className="min-h-0 flex-1 overflow-auto bg-[#F7F8FB] px-4 py-3 lg:px-5">
             <div className="mx-auto max-w-[920px] space-y-2.5">
               {fieldBlueprints.map((field) => {
-                const currentMissing = field.required && !values[field.id].trim();
-                const status = currentMissing
+                const fieldValue = values[field.id];
+                const mapped = isMappedValue(field, fieldValue);
+                const currentMissing = field.required && !mapped;
+                const status = !mapped
                   ? "missing"
                   : field.status === "review"
                     ? "review"
                     : "verified";
+                const isActive = selected === field.id;
 
                 return (
                   <label
@@ -1039,7 +1106,7 @@ function WorkspaceScreen({
                       fieldCardRefs.current[field.id] = node;
                     }}
                     className={`block cursor-pointer rounded-xl border p-3 shadow-sm transition-all ${
-                      selected === field.id
+                      isActive
                         ? "border-ink bg-cream/35 shadow-md shadow-ink/8"
                         : currentMissing
                           ? "border-destructive/30 bg-white hover:border-destructive/45"
@@ -1051,15 +1118,29 @@ function WorkspaceScreen({
                       <span>{field.label}</span>
                       <Status status={status} />
                     </span>
-                    <input
-                      value={values[field.id]}
-                      onChange={(event) => updateField(field.id, event.target.value)}
-                      placeholder={currentMissing ? "Enter required value" : undefined}
-                      className="h-7 w-full border-0 bg-transparent text-sm font-bold text-foreground outline-none placeholder:text-destructive"
-                    />
+                    {field.kind === "checkbox" ? (
+                      <span className="flex items-center justify-between gap-3 rounded-lg bg-[#F7F8FB] px-3 py-2">
+                        <span className="text-sm font-bold text-foreground">
+                          {fieldValue === true ? "Checked" : "Unchecked"}
+                        </span>
+                        <input
+                          type="checkbox"
+                          checked={fieldValue === true}
+                          onChange={(event) => updateField(field.id, event.target.checked)}
+                          className="size-4 accent-primary"
+                        />
+                      </span>
+                    ) : (
+                      <input
+                        value={typeof fieldValue === "string" ? fieldValue : ""}
+                        onChange={(event) => updateField(field.id, event.target.value)}
+                        placeholder={currentMissing ? "Enter required value" : undefined}
+                        className="h-7 w-full border-0 bg-transparent text-sm font-bold text-foreground outline-none placeholder:text-destructive"
+                      />
+                    )}
                     <span className="mt-1.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-[11px] font-medium text-muted-foreground">
                       <span>Source: {field.source}</span>
-                      <span>Confidence: {currentMissing ? "0%" : field.confidence}</span>
+                      <span>Confidence: {mapped ? field.confidence : "0%"}</span>
                     </span>
                   </label>
                 );
@@ -1156,6 +1237,13 @@ function PdfPage({
   setSelected: (value: FieldId) => void;
   values: FieldValues;
 }) {
+  const textValue = (fieldId: FieldId) => {
+    const value = values[fieldId];
+
+    return typeof value === "string" ? value : "";
+  };
+  const checkboxValue = (fieldId: FieldId) => values[fieldId] === true;
+
   if (page === 2) {
     return (
       <>
@@ -1166,7 +1254,7 @@ function PdfPage({
         </p>
         <PdfField
           label="BID PACKAGE / SCOPE"
-          value={values.bidPackage}
+          value={textValue("bidPackage")}
           active={selected === "bidPackage"}
           warning
           onClick={() => setSelected("bidPackage")}
@@ -1174,47 +1262,61 @@ function PdfPage({
         <div className="grid grid-cols-2 gap-4">
           <PdfField
             label="BOND PERCENTAGE"
-            value={values.bidPercentage}
+            value={textValue("bidPercentage")}
             active={selected === "bidPercentage"}
             onClick={() => setSelected("bidPercentage")}
           />
           <PdfField
             label="BID OPENING TIME"
-            value={values.bidTime}
+            value={textValue("bidTime")}
             active={selected === "bidTime"}
             onClick={() => setSelected("bidTime")}
           />
         </div>
         <PdfField
           label="SURETY COMPANY"
-          value={values.surety}
+          value={textValue("surety")}
           active={selected === "surety"}
           onClick={() => setSelected("surety")}
         />
         <PdfField
           label="SURETY ADDRESS"
-          value={values.suretyAddress || "Optional field"}
+          value={textValue("suretyAddress") || "Optional field"}
           active={selected === "suretyAddress"}
-          missing={!values.suretyAddress}
+          missing={!textValue("suretyAddress")}
           onClick={() => setSelected("suretyAddress")}
         />
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <PdfCheckboxField
+            label="BID BOND REQUIRED"
+            checked={checkboxValue("bidBondRequired")}
+            active={selected === "bidBondRequired"}
+            onClick={() => setSelected("bidBondRequired")}
+          />
+          <PdfCheckboxField
+            label="SURETY CONFIRMED"
+            checked={checkboxValue("suretyConfirmed")}
+            active={selected === "suretyConfirmed"}
+            onClick={() => setSelected("suretyConfirmed")}
+          />
+        </div>
         <div className="grid grid-cols-2 gap-4">
           <PdfField
             label="DOCUMENT TYPE"
-            value={values.bondType}
+            value={textValue("bondType")}
             active={selected === "bondType"}
             onClick={() => setSelected("bondType")}
           />
           <PdfField
             label="JURISDICTION"
-            value={values.jurisdiction}
+            value={textValue("jurisdiction")}
             active={selected === "jurisdiction"}
             onClick={() => setSelected("jurisdiction")}
           />
         </div>
         <PdfField
           label="VALIDITY PERIOD"
-          value={values.validityPeriod}
+          value={textValue("validityPeriod")}
           active={selected === "validityPeriod"}
           onClick={() => setSelected("validityPeriod")}
         />
@@ -1232,15 +1334,15 @@ function PdfPage({
         </p>
         <PdfField
           label="AUTHORIZED SIGNER"
-          value={values.authorizedSigner}
+          value={textValue("authorizedSigner")}
           active={selected === "authorizedSigner"}
           onClick={() => setSelected("authorizedSigner")}
         />
         <PdfField
           label="SIGNER TITLE"
-          value={values.signerTitle || "Required field"}
+          value={textValue("signerTitle") || "Required field"}
           active={selected === "signerTitle"}
-          missing={!values.signerTitle}
+          missing={!textValue("signerTitle")}
           onClick={() => setSelected("signerTitle")}
         />
         <div className="mt-6 grid grid-cols-2 gap-4">
@@ -1259,9 +1361,13 @@ function PdfPage({
             Notary acknowledgement
           </div>
         </div>
-        <div className="mt-8 flex flex-wrap gap-4 text-[10px]">
-          <span>[x] Reviewed by user</span>
-          <span>[ ] Ready for countersignature</span>
+        <div className="mt-6">
+          <PdfCheckboxField
+            label="READY FOR COUNTERSIGNATURE"
+            checked={checkboxValue("readyForCountersignature")}
+            active={selected === "readyForCountersignature"}
+            onClick={() => setSelected("readyForCountersignature")}
+          />
         </div>
       </>
     );
@@ -1276,57 +1382,91 @@ function PdfPage({
       </p>
       <PdfField
         label="PROJECT NAME"
-        value={values.project}
+        value={textValue("project")}
         active={selected === "project"}
         onClick={() => setSelected("project")}
       />
       <PdfField
         label="PROJECT NUMBER"
-        value={values.projectNumber}
+        value={textValue("projectNumber")}
         active={selected === "projectNumber"}
         onClick={() => setSelected("projectNumber")}
       />
       <PdfField
         label="CONTRACTOR / PRINCIPAL"
-        value={values.contractor}
+        value={textValue("contractor")}
         active={selected === "contractor"}
         onClick={() => setSelected("contractor")}
       />
       <PdfField
         label="CONTRACTOR ADDRESS"
-        value={values.contractorAddress}
+        value={textValue("contractorAddress")}
         active={selected === "contractorAddress"}
         onClick={() => setSelected("contractorAddress")}
       />
       <div className="grid grid-cols-2 gap-4">
         <PdfField
           label="BID AMOUNT"
-          value={values.amount}
+          value={textValue("amount")}
           active={selected === "amount"}
           onClick={() => setSelected("amount")}
         />
         <PdfField
           label="BID OPENING DATE"
-          value={values.date}
+          value={textValue("date")}
           active={selected === "date"}
           onClick={() => setSelected("date")}
         />
       </div>
       <PdfField
         label="OBLIGEE"
-        value={values.obligee}
+        value={textValue("obligee")}
         active={selected === "obligee"}
         warning
         onClick={() => setSelected("obligee")}
       />
       <PdfField
         label="OBLIGEE ADDRESS"
-        value={values.address || "Required field"}
+        value={textValue("address") || "Required field"}
         active={selected === "address"}
-        missing={!values.address}
+        missing={!textValue("address")}
         onClick={() => setSelected("address")}
       />
     </>
+  );
+}
+
+function PdfCheckboxField({
+  label,
+  checked,
+  active,
+  onClick,
+}: {
+  label: string;
+  checked: boolean;
+  active?: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`w-full rounded-xl px-2 py-2 text-left transition-all ${active ? "bg-cream/70 ring-2 ring-ink ring-offset-2" : "hover:bg-cream/35"}`}
+    >
+      <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-normal text-muted-foreground">
+        <span
+          className={`flex size-4 items-center justify-center border ${
+            checked ? "border-ink bg-ink text-primary-foreground" : "border-steel-blue/45 bg-white"
+          }`}
+        >
+          {checked && <Check size={11} />}
+        </span>
+        {label}
+      </span>
+      <span className="mt-1 block pl-6 text-[11px] font-bold text-foreground">
+        {checked ? "Checked" : "Unchecked"}
+      </span>
+    </button>
   );
 }
 
